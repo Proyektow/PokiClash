@@ -11,123 +11,134 @@
   <script type="module" src="game.js"></script>
 </head>
 <body>
-  <!-- Pantalla de Carga Estilo Supercell / Clash Royale -->
+
+  <!-- PANTALLA DE CARGA -->
   <div id="splash-screen" class="splash-screen">
     <div class="splash-content">
       <div class="splash-badge">
         <svg viewBox="0 0 100 100" class="splash-logo">
           <circle cx="50" cy="50" r="46" fill="#d9383a" stroke="#fff" stroke-width="5"/>
-          <path d="M 50 4 A 46 46 0 0 1 96 50 L 76 50 A 26 26 0 0 0 50 24 Z" fill="#fff" opacity="0.2"/>
+          <path d="M 50 4 A 46 46 0 0 1 96 50 L 76 50 A 26 26 0 0 0 50 24 Z" fill="#fff" opacity="0.25"/>
           <text x="35" y="65" font-family="'Arial Black', sans-serif" font-weight="900" font-size="44" fill="#ffffff" text-anchor="middle">P</text>
           <text x="68" y="65" font-family="'Arial Black', sans-serif" font-weight="900" font-size="44" fill="#ffffff" text-anchor="middle">C</text>
-          <circle cx="50" cy="50" r="10" fill="#ffffff"/>
-          <circle cx="50" cy="50" r="5" fill="#d9383a"/>
+          <circle cx="50" cy="50" r="9" fill="#ffffff"/>
+          <circle cx="50" cy="50" r="4.5" fill="#d9383a"/>
         </svg>
       </div>
       <h1 class="splash-title">POKI<span>CLASH</span></h1>
-      <p class="splash-subtitle">ARENA TÁCTICA REAL-TIME</p>
+      <p class="splash-subtitle">ARENA EN TIEMPO REAL</p>
       <div class="splash-loader-wrap">
         <div class="splash-bar"><div id="splash-progress" class="splash-progress"></div></div>
-        <span id="splash-status">Cargando criaturas y arenas...</span>
+        <span id="splash-status">Cargando luchadores y arenas...</span>
       </div>
     </div>
   </div>
 
   <main class="game-shell">
-    <!-- Pantalla de Mazos y Personalización -->
-    <section class="deck-screen" id="deck-screen">
-      <header class="deck-top">
-        <div class="brand-badge">
-          <svg viewBox="0 0 100 100" class="brand-pc-icon">
-            <rect width="100" height="100" rx="22" fill="#d9383a"/>
-            <text x="33" y="66" font-family="'Arial Black', sans-serif" font-weight="900" font-size="45" fill="#ffffff" text-anchor="middle">P</text>
-            <text x="68" y="66" font-family="'Arial Black', sans-serif" font-weight="900" font-size="45" fill="#ffffff" text-anchor="middle">C</text>
-          </svg>
-          <span class="brand-name">POKI<b>CLASH</b></span>
+    <!-- VISTA 1: BATALLA (HOME) -->
+    <section id="view-battle" class="view-tab active">
+      <header class="hub-header">
+        <div class="trophy-pill">
+          <span class="trophy-icon">🏆</span>
+          <span id="trophy-count">1420</span>
         </div>
-        <button id="pwa-install-btn" class="install-pwa-btn" hidden type="button">⬇ INSTALAR APP</button>
+        <div class="brand-badge-mini">
+          <span class="brand-p">P</span><span class="brand-c">C</span>
+        </div>
+        <button id="pwa-install-btn" class="install-pwa-btn" hidden type="button">⬇ INSTALAR</button>
       </header>
 
-      <div class="deck-title">
-        <span class="eyebrow">TALLER DE COMBATE</span>
-        <h1>Personaliza<br><em>tu Escuadrón</em></h1>
-        <p>Toca el nombre de cualquier Pokémon para renombrarlo antes de saltar a la arena.</p>
+      <div class="arena-banner">
+        <span class="arena-tag">ARENA 4</span>
+        <h2>Estadio Kanto</h2>
+        <div class="arena-stage-preview">
+          <div class="stage-island"></div>
+        </div>
       </div>
 
-      <div class="deck-summary">
-        <span>CARTAS EN ROTACIÓN</span>
-        <strong>8 / 8 DISPONIBLES</strong>
-      </div>
-
-      <div class="manager-grid" id="manager-grid"></div>
-
-      <div class="deck-actions">
-        <button class="clash-button primary-clash-btn" id="enter-arena" type="button">
-          ¡A LA BATALLA!
+      <div class="battle-cta-wrap">
+        <button id="btn-start-battle" class="clash-button big-cta" type="button">
+          <span>¡BATALLA!</span>
+          <small>1 vs 1 en tiempo real</small>
         </button>
       </div>
     </section>
 
-    <!-- Pantalla de Juego / Batalla -->
-    <section class="game-screen" id="game-screen" hidden>
-      <header class="game-top">
-        <button class="back-button" id="back-to-deck" type="button">◀ SALIR</button>
+    <!-- VISTA 2: MAZO / CARTAS -->
+    <section id="view-cards" class="view-tab">
+      <header class="deck-header">
+        <h2>Colección y Nombres</h2>
+        <p>Personaliza el nombre de tus criaturas en batalla</p>
+      </header>
+      <div class="manager-grid" id="manager-grid"></div>
+    </section>
+
+    <!-- VISTA 3: ARENA EN VIVO (PARTIDA EN CURSO) -->
+    <section id="view-arena-live" class="view-tab arena-live-view">
+      <header class="live-top">
+        <button class="surrender-btn" id="btn-surrender" type="button">Rendirse</button>
         <div class="crown-counter red-crowns">
-          <span class="crown-icon">♛</span>
-          <span id="red-crown-score">0</span>
+          <span class="crown-symbol">♛</span>
+          <span id="red-crowns">0</span>
         </div>
-        <div class="clock-block">
-          <span id="phase-label">BATALLA</span>
-          <strong id="timer">03:00</strong>
+        <div class="clock-display">
+          <span id="phase-tag">BATALLA</span>
+          <strong id="timer-text">03:00</strong>
         </div>
         <div class="crown-counter blue-crowns">
-          <span class="crown-icon">♛</span>
-          <span id="blue-crown-score">0</span>
+          <span class="crown-symbol">♛</span>
+          <span id="blue-crowns">0</span>
         </div>
-        <span class="double-badge" id="double-badge" hidden>×2</span>
       </header>
 
       <div class="arena-wrap" id="arena-wrap">
         <canvas id="arena" width="400" height="660"></canvas>
-        <div class="arena-hint" id="hint">Arrastra una carta a tu mitad de la arena</div>
-        
-        <!-- Cartel de Resultado -->
-        <div class="result" id="result" hidden>
-          <div class="result-card">
-            <span class="result-crown" id="result-crown">♛</span>
-            <strong id="result-title">¡VICTORIA!</strong>
-            <span id="result-copy">3 - 1</span>
-            <button type="button" class="clash-button" id="play-again">VOLVER AL MENÚ</button>
-          </div>
-        </div>
+        <div class="arena-hint" id="hint">Arrastra una carta a tu lado del río</div>
+        <div class="alert-banner" id="alert-banner" hidden>¡DOBLE ELIXIR!</div>
       </div>
 
-      <!-- Barra de elixir y mano -->
-      <section class="battle-controls">
-        <div class="energy-bar-container">
-          <div class="elixir-drop">💧</div>
-          <div class="energy-track">
-            <div id="energy-fill" class="energy-fill"></div>
-            <div class="energy-ticks">
-              <span></span><span></span><span></span><span></span><span></span>
-              <span></span><span></span><span></span><span></span><span></span>
-            </div>
-          </div>
-          <strong id="energy-value" class="energy-number">5</strong>
+      <section class="live-controls">
+        <div class="elixir-bar">
+          <span class="elixir-drop">💧</span>
+          <div class="elixir-track"><div id="elixir-fill" class="elixir-fill"></div></div>
+          <strong id="elixir-val">5</strong>
         </div>
 
-        <div class="hand-row-container">
-          <div class="card-row" id="cards"></div>
-          <div class="next-card-slot" id="next-card">
-            <span class="slot-label">SIG.</span>
-            <img id="next-icon" class="next-img" alt="Siguiente carta" src="">
-            <span class="cost-bubble small" id="next-cost">?</span>
+        <div class="hand-row">
+          <div class="card-rack" id="cards-rack"></div>
+          <div class="next-box" id="next-box">
+            <span class="next-lbl">SIG.</span>
+            <img id="next-img" src="" alt="Siguiente">
+            <span id="next-cost" class="bubble-cost">?</span>
           </div>
         </div>
       </section>
 
       <div class="drag-ghost" id="drag-ghost" aria-hidden="true"></div>
     </section>
+
+    <!-- NAVEGACIÓN INFERIOR (ESTILO CLASH ROYALE) -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <button class="nav-btn active" data-target="view-battle" type="button">
+        <span class="nav-icon">⚔️</span>
+        <span class="nav-text">Batalla</span>
+      </button>
+      <button class="nav-btn" data-target="view-cards" type="button">
+        <span class="nav-icon">🃏</span>
+        <span class="nav-text">Mazo</span>
+      </button>
+    </nav>
   </main>
+
+  <!-- MODAL DE FIN DE PARTIDA -->
+  <div id="modal-result" class="modal-overlay" hidden>
+    <div class="modal-card">
+      <div id="result-icon" class="modal-crown">♛</div>
+      <h2 id="result-headline">¡VICTORIA!</h2>
+      <p id="result-detail">Coronas: 3 vs 0</p>
+      <button id="modal-ok-btn" class="clash-button" type="button">CONTINUAR</button>
+    </div>
+  </div>
+
 </body>
 </html>
