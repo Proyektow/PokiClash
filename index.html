@@ -17,8 +17,8 @@
     <div class="splash-content">
       <div class="splash-badge">
         <svg viewBox="0 0 100 100" class="splash-logo">
-          <circle cx="50" cy="50" r="46" fill="#d9383a" stroke="#fff" stroke-width="5"/>
-          <path d="M 50 4 A 46 46 0 0 1 96 50 L 76 50 A 26 26 0 0 0 50 24 Z" fill="#fff" opacity="0.25"/>
+          <circle cx="50" cy="50" r="46" fill="#d9383a" stroke="#ffffff" stroke-width="5"/>
+          <path d="M 50 4 A 46 46 0 0 1 96 50 L 76 50 A 26 26 0 0 0 50 24 Z" fill="#ffffff" opacity="0.25"/>
           <text x="35" y="65" font-family="'Arial Black', sans-serif" font-weight="900" font-size="44" fill="#ffffff" text-anchor="middle">P</text>
           <text x="68" y="65" font-family="'Arial Black', sans-serif" font-weight="900" font-size="44" fill="#ffffff" text-anchor="middle">C</text>
           <circle cx="50" cy="50" r="9" fill="#ffffff"/>
@@ -35,12 +35,12 @@
   </div>
 
   <main class="game-shell">
-    <!-- VISTA 1: BATALLA (HOME) -->
+    <!-- PESTAÑA 1: BATALLA -->
     <section id="view-battle" class="view-tab active">
       <header class="hub-header">
         <div class="trophy-pill">
           <span class="trophy-icon">🏆</span>
-          <span id="trophy-count">1420</span>
+          <span id="trophy-count">0</span>
         </div>
         <div class="brand-badge-mini">
           <span class="brand-p">P</span><span class="brand-c">C</span>
@@ -48,35 +48,43 @@
         <button id="pwa-install-btn" class="install-pwa-btn" hidden type="button">⬇ INSTALAR</button>
       </header>
 
-      <div class="arena-banner">
-        <span class="arena-tag">ARENA 4</span>
-        <h2>Estadio Kanto</h2>
-        <div class="arena-stage-preview">
-          <div class="stage-island"></div>
+      <!-- ARENA REALISTA ILUSTRADA -->
+      <div class="arena-card-realistic">
+        <div class="arena-tag-badge" id="arena-league-tag">ARENA 1</div>
+        <h2 class="arena-title" id="arena-name-text">Estadio de Kanto</h2>
+        
+        <div class="realistic-stadium-canvas-wrap">
+          <canvas id="stadium-preview-canvas" width="340" height="150"></canvas>
+          <div class="stadium-overlay-lights"></div>
+        </div>
+
+        <div class="arena-footer-info">
+          <span>Trofeos requeridos: <b>0+</b></span>
+          <span class="online-dot">● En línea</span>
         </div>
       </div>
 
       <div class="battle-cta-wrap">
-        <button id="btn-start-battle" class="clash-button big-cta" type="button">
-          <span>¡BATALLA!</span>
-          <small>1 vs 1 en tiempo real</small>
+        <button id="btn-start-battle" class="clash-button big-cta shiny-btn" type="button">
+          <span class="btn-headline">¡BATALLA!</span>
+          <span class="btn-subtext">Partida 1 vs 1</span>
         </button>
       </div>
     </section>
 
-    <!-- VISTA 2: MAZO / CARTAS -->
+    <!-- PESTAÑA 2: MAZO -->
     <section id="view-cards" class="view-tab">
       <header class="deck-header">
         <h2>Colección y Nombres</h2>
-        <p>Personaliza el nombre de tus criaturas en batalla</p>
+        <p>Personaliza el apodo de tus criaturas antes del combate</p>
       </header>
       <div class="manager-grid" id="manager-grid"></div>
     </section>
 
-    <!-- VISTA 3: ARENA EN VIVO (PARTIDA EN CURSO) -->
+    <!-- PESTAÑA 3: ARENA EN VIVO -->
     <section id="view-arena-live" class="view-tab arena-live-view">
       <header class="live-top">
-        <button class="surrender-btn" id="btn-surrender" type="button">Rendirse</button>
+        <button class="surrender-btn clash-sub-btn" id="btn-surrender" type="button">Rendirse</button>
         <div class="crown-counter red-crowns">
           <span class="crown-symbol">♛</span>
           <span id="red-crowns">0</span>
@@ -93,14 +101,19 @@
 
       <div class="arena-wrap" id="arena-wrap">
         <canvas id="arena" width="400" height="660"></canvas>
-        <div class="arena-hint" id="hint">Arrastra una carta a tu lado del río</div>
+        <div class="arena-hint" id="hint">Arrastra una carta a tu lado del campo</div>
         <div class="alert-banner" id="alert-banner" hidden>¡DOBLE ELIXIR!</div>
       </div>
 
       <section class="live-controls">
         <div class="elixir-bar">
           <span class="elixir-drop">💧</span>
-          <div class="elixir-track"><div id="elixir-fill" class="elixir-fill"></div></div>
+          <div class="elixir-track">
+            <div id="elixir-fill" class="elixir-fill"></div>
+            <div class="elixir-notches">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+          </div>
           <strong id="elixir-val">5</strong>
         </div>
 
@@ -117,7 +130,7 @@
       <div class="drag-ghost" id="drag-ghost" aria-hidden="true"></div>
     </section>
 
-    <!-- NAVEGACIÓN INFERIOR (ESTILO CLASH ROYALE) -->
+    <!-- NAVEGACIÓN INFERIOR -->
     <nav class="bottom-nav" id="bottom-nav">
       <button class="nav-btn active" data-target="view-battle" type="button">
         <span class="nav-icon">⚔️</span>
@@ -135,8 +148,14 @@
     <div class="modal-card">
       <div id="result-icon" class="modal-crown">♛</div>
       <h2 id="result-headline">¡VICTORIA!</h2>
-      <p id="result-detail">Coronas: 3 vs 0</p>
-      <button id="modal-ok-btn" class="clash-button" type="button">CONTINUAR</button>
+      <p id="result-detail">Coronas conseguidas: 3 vs 0</p>
+      
+      <div class="trophy-delta-box" id="trophy-delta-box">
+        <span class="trophy-symbol">🏆</span>
+        <span id="trophy-delta-value">+30</span>
+      </div>
+
+      <button id="modal-ok-btn" class="clash-button shiny-btn" type="button">CONTINUAR</button>
     </div>
   </div>
 
