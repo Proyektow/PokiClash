@@ -3,208 +3,56 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-  <meta name="theme-color" content="#d9383a">
   <title>PokiClash</title>
-  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
-  <link rel="preconnect" href="https://play.pokemonshowdown.com">
-  <script type="module" src="game.js"></script>
 </head>
 <body>
+  <main class="game-container">
+    <header class="game-hud">
+      <div class="score-box red-side">
+        <span>RIVAL</span>
+        <strong id="red-crowns">0</strong>
+      </div>
+      <div class="timer-box">
+        <span id="match-timer">03:00</span>
+      </div>
+      <div class="score-box blue-side">
+        <span>TÚ</span>
+        <strong id="blue-crowns">0</strong>
+      </div>
+    </header>
 
-  <!-- PANTALLA DE CARGA ÉPICA ESTILO CLASH ROYALE -->
-  <div id="splash-screen" class="splash-screen">
-    <div class="splash-bg-sunburst"></div>
-    <div class="splash-bg-overlay"></div>
-    
-    <!-- POKÉMON EN COMPOSICIÓN DE BATALLA DE FONDO -->
-    <div class="splash-hero-art">
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" class="splash-pkmn charizard" alt="Charizard">
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/143.png" class="splash-pkmn snorlax" alt="Snorlax">
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/212.png" class="splash-pkmn scizor" alt="Scizor">
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/92.png" class="splash-pkmn gastly" alt="Gastly">
-      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" class="splash-pkmn pikachu" alt="Pikachu">
+    <div class="canvas-wrap">
+      <canvas id="arena-canvas" width="400" height="660"></canvas>
     </div>
 
-    <!-- TÍTULO PRINCIPAL Y BARRA INFERIOR -->
-    <div class="splash-bottom-container">
-      <h1 class="splash-epic-title" data-text="PokiClash">PokiClash</h1>
-      
-      <div class="splash-bar-outer">
-        <div id="splash-progress" class="splash-bar-inner">
-          <div class="splash-bar-shine"></div>
+    <footer class="controls-hud">
+      <div class="elixir-container">
+        <span class="elixir-icon">💧</span>
+        <div class="elixir-bar-track">
+          <div id="elixir-bar-fill" class="elixir-bar-fill"></div>
         </div>
-      </div>
-      <span id="splash-status" class="splash-status-lbl">Cargando... 0%</span>
-    </div>
-  </div>
-
-  <main class="game-shell">
-    <!-- PESTAÑA 1: BATALLA (HOME) -->
-    <section id="view-battle" class="view-tab active">
-      <header class="hub-header">
-        <div class="hub-user-stats">
-          <div class="user-lvl-badge">
-            <span class="lvl-star">★</span>
-            <span id="user-level-val">1</span>
-          </div>
-          <div class="coin-pill">
-            <span class="coin-icon">🪙</span>
-            <span id="user-coins-val">250</span>
-          </div>
-        </div>
-
-        <div class="trophy-pill">
-          <span class="trophy-icon">🏆</span>
-          <span id="trophy-count">0</span>
-        </div>
-
-        <button id="pwa-install-btn" class="install-pwa-btn" hidden type="button">⬇ INSTALAR</button>
-      </header>
-
-      <!-- ARENA ILUSTRADA DINÁMICA -->
-      <div class="arena-card-realistic">
-        <div class="arena-tag-badge" id="arena-league-tag">ARENA 1</div>
-        <h2 class="arena-title" id="arena-name-text">Estadio de Kanto</h2>
-        
-        <div class="realistic-stadium-canvas-wrap">
-          <canvas id="stadium-preview-canvas" width="340" height="135"></canvas>
-          <div class="stadium-overlay-lights"></div>
-        </div>
-
-        <div class="arena-footer-info">
-          <span>Trofeos requeridos: <b id="arena-req-trophies">0+</b></span>
-          <span class="online-dot">● En línea</span>
-        </div>
+        <strong id="elixir-count">5</strong>
       </div>
 
-      <!-- HUECOS DE COFRES -->
-      <div class="chests-row-wrapper">
-        <div class="chest-slot-card" data-slot="0"></div>
-        <div class="chest-slot-card" data-slot="1"></div>
-        <div class="chest-slot-card" data-slot="2"></div>
-        <div class="chest-slot-card" data-slot="3"></div>
+      <div class="hand-container">
+        <div class="card-hand" id="card-hand"></div>
+        <div class="next-card-slot">
+          <span>SIG.</span>
+          <img id="next-card-img" src="" alt="Siguiente">
+        </div>
       </div>
-
-      <div class="battle-cta-wrap">
-        <button id="btn-start-battle" class="clash-button big-cta shiny-btn" type="button">
-          <span class="btn-headline">¡BATALLA!</span>
-          <span class="btn-subtext">Partida 1 vs 1</span>
-        </button>
-      </div>
-    </section>
-
-    <!-- PESTAÑA 2: MAZO Y MEJORAS -->
-    <section id="view-cards" class="view-tab">
-      <header class="deck-header">
-        <div class="deck-header-info">
-          <h2>Colección y Niveles</h2>
-          <p>Mejora tus Pokémon y personaliza sus apodos</p>
-        </div>
-        <div class="deck-header-coins">
-          <span>🪙</span><b id="deck-coins-display">250</b>
-        </div>
-      </header>
-      <div class="manager-grid" id="manager-grid"></div>
-    </section>
-
-    <!-- PESTAÑA 3: ARENA EN VIVO -->
-    <section id="view-arena-live" class="view-tab arena-live-view">
-      <header class="live-top">
-        <button class="surrender-btn clash-sub-btn" id="btn-surrender" type="button">Rendirse</button>
-        <div class="crown-counter red-crowns">
-          <span class="crown-symbol">♛</span>
-          <span id="red-crowns">0</span>
-        </div>
-        <div class="clock-display">
-          <span id="phase-tag">BATALLA</span>
-          <strong id="timer-text">03:00</strong>
-        </div>
-        <div class="crown-counter blue-crowns">
-          <span class="crown-symbol">♛</span>
-          <span id="blue-crowns">0</span>
-        </div>
-      </header>
-
-      <div class="arena-wrap" id="arena-wrap">
-        <canvas id="arena" width="400" height="660"></canvas>
-        <div class="arena-hint" id="hint">Arrastra una carta a tu lado del campo</div>
-        <div class="alert-banner" id="alert-banner" hidden>¡DOBLE ELIXIR!</div>
-        
-        <!-- BURBUJA DE EMOTES -->
-        <div class="emote-bubble-render" id="player-emote-bubble" hidden></div>
-        <div class="emote-bubble-render rival-bubble" id="rival-emote-bubble" hidden></div>
-      </div>
-
-      <section class="live-controls">
-        <div class="elixir-bar">
-          <span class="elixir-drop">💧</span>
-          <div class="elixir-track">
-            <div id="elixir-fill" class="elixir-fill"></div>
-            <div class="elixir-notches">
-              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-            </div>
-          </div>
-          <strong id="elixir-val">5</strong>
-        </div>
-
-        <div class="hand-row">
-          <div class="emote-toggle-box">
-            <button id="btn-emote-menu" class="emote-btn-circle" type="button" aria-label="Abrir emotes">💬</button>
-          </div>
-          <div class="card-rack" id="cards-rack"></div>
-          <div class="next-box" id="next-box">
-            <span class="next-lbl">SIG.</span>
-            <img id="next-img" src="" alt="Siguiente">
-            <span id="next-cost" class="bubble-cost">?</span>
-          </div>
-        </div>
-      </section>
-
-      <!-- RUEDA FLOTANTE DE EMOTES -->
-      <div id="emotes-popup-panel" class="emotes-popup" hidden>
-        <button class="emote-option-btn" data-emote="pikachu-happy">⚡😄</button>
-        <button class="emote-option-btn" data-emote="pikachu-cry">⚡😭</button>
-        <button class="emote-option-btn" data-emote="gengar-laugh">👻😈</button>
-        <button class="emote-option-btn" data-emote="snorlax-sleep">💤😴</button>
-      </div>
-
-      <div class="drag-ghost" id="drag-ghost" aria-hidden="true"></div>
-    </section>
-
-    <!-- NAVEGACIÓN INFERIOR -->
-    <nav class="bottom-nav" id="bottom-nav">
-      <button class="nav-btn active" data-target="view-battle" type="button">
-        <span class="nav-icon">⚔️</span>
-        <span class="nav-text">Batalla</span>
-      </button>
-      <button class="nav-btn" data-target="view-cards" type="button">
-        <span class="nav-icon">🃏</span>
-        <span class="nav-text">Mazo</span>
-      </button>
-    </nav>
+    </footer>
   </main>
 
-  <!-- MODAL DE FIN DE PARTIDA -->
-  <div id="modal-result" class="modal-overlay" hidden>
-    <div class="modal-card">
-      <div id="result-icon" class="modal-crown">♛</div>
-      <h2 id="result-headline">¡VICTORIA!</h2>
-      <p id="result-detail">Coronas conseguidas: 3 vs 0</p>
-      
-      <div class="trophy-delta-box" id="trophy-delta-box">
-        <span class="trophy-symbol">🏆</span>
-        <span id="trophy-delta-value">+30</span>
-      </div>
-
-      <div id="modal-chest-award" class="chest-award-box" hidden>
-        <span class="chest-award-icon">🎁</span>
-        <span id="modal-chest-award-text">¡Nuevo cofre ganado!</span>
-      </div>
-
-      <button id="modal-ok-btn" class="clash-button shiny-btn" type="button">CONTINUAR</button>
+  <div id="result-modal" class="modal-backdrop" hidden>
+    <div class="modal-box">
+      <h2 id="modal-title">¡VICTORIA!</h2>
+      <p id="modal-score">Coronas: 1 - 0</p>
+      <button id="modal-restart-btn" class="clash-btn">JUGAR DE NUEVO</button>
     </div>
   </div>
 
+  <script type="module" src="js/main.js"></script>
 </body>
 </html>
