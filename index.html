@@ -12,56 +12,78 @@
 </head>
 <body>
 
-  <!-- PANTALLA DE CARGA -->
+  <!-- PANTALLA DE CARGA ÉPICA ESTILO CLASH ROYALE -->
   <div id="splash-screen" class="splash-screen">
-    <div class="splash-content">
-      <div class="splash-badge">
-        <svg viewBox="0 0 100 100" class="splash-logo">
-          <circle cx="50" cy="50" r="46" fill="#d9383a" stroke="#ffffff" stroke-width="5"/>
-          <path d="M 50 4 A 46 46 0 0 1 96 50 L 76 50 A 26 26 0 0 0 50 24 Z" fill="#ffffff" opacity="0.25"/>
-          <text x="35" y="65" font-family="'Arial Black', sans-serif" font-weight="900" font-size="44" fill="#ffffff" text-anchor="middle">P</text>
-          <text x="68" y="65" font-family="'Arial Black', sans-serif" font-weight="900" font-size="44" fill="#ffffff" text-anchor="middle">C</text>
-          <circle cx="50" cy="50" r="9" fill="#ffffff"/>
-          <circle cx="50" cy="50" r="4.5" fill="#d9383a"/>
-        </svg>
+    <div class="splash-bg-sunburst"></div>
+    <div class="splash-bg-overlay"></div>
+    
+    <!-- POKÉMON EN COMPOSICIÓN DE BATALLA DE FONDO -->
+    <div class="splash-hero-art">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" class="splash-pkmn charizard" alt="Charizard">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/143.png" class="splash-pkmn snorlax" alt="Snorlax">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/212.png" class="splash-pkmn scizor" alt="Scizor">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/92.png" class="splash-pkmn gastly" alt="Gastly">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png" class="splash-pkmn pikachu" alt="Pikachu">
+    </div>
+
+    <!-- TÍTULO PRINCIPAL Y BARRA INFERIOR -->
+    <div class="splash-bottom-container">
+      <h1 class="splash-epic-title" data-text="PokiClash">PokiClash</h1>
+      
+      <div class="splash-bar-outer">
+        <div id="splash-progress" class="splash-bar-inner">
+          <div class="splash-bar-shine"></div>
+        </div>
       </div>
-      <h1 class="splash-title">POKI<span>CLASH</span></h1>
-      <p class="splash-subtitle">ARENA EN TIEMPO REAL</p>
-      <div class="splash-loader-wrap">
-        <div class="splash-bar"><div id="splash-progress" class="splash-progress"></div></div>
-        <span id="splash-status">Cargando luchadores y arenas...</span>
-      </div>
+      <span id="splash-status" class="splash-status-lbl">Cargando... 0%</span>
     </div>
   </div>
 
   <main class="game-shell">
-    <!-- PESTAÑA 1: BATALLA -->
+    <!-- PESTAÑA 1: BATALLA (HOME) -->
     <section id="view-battle" class="view-tab active">
       <header class="hub-header">
+        <div class="hub-user-stats">
+          <div class="user-lvl-badge">
+            <span class="lvl-star">★</span>
+            <span id="user-level-val">1</span>
+          </div>
+          <div class="coin-pill">
+            <span class="coin-icon">🪙</span>
+            <span id="user-coins-val">250</span>
+          </div>
+        </div>
+
         <div class="trophy-pill">
           <span class="trophy-icon">🏆</span>
           <span id="trophy-count">0</span>
         </div>
-        <div class="brand-badge-mini">
-          <span class="brand-p">P</span><span class="brand-c">C</span>
-        </div>
+
         <button id="pwa-install-btn" class="install-pwa-btn" hidden type="button">⬇ INSTALAR</button>
       </header>
 
-      <!-- ARENA REALISTA ILUSTRADA -->
+      <!-- ARENA ILUSTRADA DINÁMICA -->
       <div class="arena-card-realistic">
         <div class="arena-tag-badge" id="arena-league-tag">ARENA 1</div>
         <h2 class="arena-title" id="arena-name-text">Estadio de Kanto</h2>
         
         <div class="realistic-stadium-canvas-wrap">
-          <canvas id="stadium-preview-canvas" width="340" height="150"></canvas>
+          <canvas id="stadium-preview-canvas" width="340" height="135"></canvas>
           <div class="stadium-overlay-lights"></div>
         </div>
 
         <div class="arena-footer-info">
-          <span>Trofeos requeridos: <b>0+</b></span>
+          <span>Trofeos requeridos: <b id="arena-req-trophies">0+</b></span>
           <span class="online-dot">● En línea</span>
         </div>
+      </div>
+
+      <!-- HUECOS DE COFRES -->
+      <div class="chests-row-wrapper">
+        <div class="chest-slot-card" data-slot="0"></div>
+        <div class="chest-slot-card" data-slot="1"></div>
+        <div class="chest-slot-card" data-slot="2"></div>
+        <div class="chest-slot-card" data-slot="3"></div>
       </div>
 
       <div class="battle-cta-wrap">
@@ -72,11 +94,16 @@
       </div>
     </section>
 
-    <!-- PESTAÑA 2: MAZO -->
+    <!-- PESTAÑA 2: MAZO Y MEJORAS -->
     <section id="view-cards" class="view-tab">
       <header class="deck-header">
-        <h2>Colección y Nombres</h2>
-        <p>Personaliza el apodo de tus criaturas antes del combate</p>
+        <div class="deck-header-info">
+          <h2>Colección y Niveles</h2>
+          <p>Mejora tus Pokémon y personaliza sus apodos</p>
+        </div>
+        <div class="deck-header-coins">
+          <span>🪙</span><b id="deck-coins-display">250</b>
+        </div>
       </header>
       <div class="manager-grid" id="manager-grid"></div>
     </section>
@@ -103,6 +130,10 @@
         <canvas id="arena" width="400" height="660"></canvas>
         <div class="arena-hint" id="hint">Arrastra una carta a tu lado del campo</div>
         <div class="alert-banner" id="alert-banner" hidden>¡DOBLE ELIXIR!</div>
+        
+        <!-- BURBUJA DE EMOTES -->
+        <div class="emote-bubble-render" id="player-emote-bubble" hidden></div>
+        <div class="emote-bubble-render rival-bubble" id="rival-emote-bubble" hidden></div>
       </div>
 
       <section class="live-controls">
@@ -118,6 +149,9 @@
         </div>
 
         <div class="hand-row">
+          <div class="emote-toggle-box">
+            <button id="btn-emote-menu" class="emote-btn-circle" type="button" aria-label="Abrir emotes">💬</button>
+          </div>
           <div class="card-rack" id="cards-rack"></div>
           <div class="next-box" id="next-box">
             <span class="next-lbl">SIG.</span>
@@ -126,6 +160,14 @@
           </div>
         </div>
       </section>
+
+      <!-- RUEDA FLOTANTE DE EMOTES -->
+      <div id="emotes-popup-panel" class="emotes-popup" hidden>
+        <button class="emote-option-btn" data-emote="pikachu-happy">⚡😄</button>
+        <button class="emote-option-btn" data-emote="pikachu-cry">⚡😭</button>
+        <button class="emote-option-btn" data-emote="gengar-laugh">👻😈</button>
+        <button class="emote-option-btn" data-emote="snorlax-sleep">💤😴</button>
+      </div>
 
       <div class="drag-ghost" id="drag-ghost" aria-hidden="true"></div>
     </section>
@@ -153,6 +195,11 @@
       <div class="trophy-delta-box" id="trophy-delta-box">
         <span class="trophy-symbol">🏆</span>
         <span id="trophy-delta-value">+30</span>
+      </div>
+
+      <div id="modal-chest-award" class="chest-award-box" hidden>
+        <span class="chest-award-icon">🎁</span>
+        <span id="modal-chest-award-text">¡Nuevo cofre ganado!</span>
       </div>
 
       <button id="modal-ok-btn" class="clash-button shiny-btn" type="button">CONTINUAR</button>
