@@ -1,0 +1,18 @@
+{
+  "name": "PokiClash: Tower Rush",
+  "short_name": "PokiClash",
+  "description": "Juego táctico estilo Clash Royale en tiempo real con criaturas Pokémon y nombres editables.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d1414",
+  "theme_color": "#d9383a",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='110' fill='%23d9383a'/><circle cx='256' cy='256' r='210' fill='none' stroke='%23ffffff' stroke-width='24'/><path d='M256 46 A210 210 0 0 1 466 256 L376 256 A120 120 0 0 0 256 136 Z' fill='%23ffffff' opacity='0.15'/><text x='170' y='325' font-family='Arial Black, sans-serif' font-weight='900' font-size='220' fill='%23ffffff' text-anchor='middle'>P</text><text x='342' y='325' font-family='Arial Black, sans-serif' font-weight='900' font-size='220' fill='%23ffffff' text-anchor='middle'>C</text><circle cx='256' cy='256' r='38' fill='%23ffffff'/><circle cx='256' cy='256' r='20' fill='%23d9383a'/></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
